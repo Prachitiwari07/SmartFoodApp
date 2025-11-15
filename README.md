@@ -119,6 +119,10 @@ Diet recommendation engine
 
 Mobile app version
 
+📘 **License**
+This project is created for academic purposes only.
+
+
 Thank You!
 
 If you liked our project, please ⭐ the repository.
