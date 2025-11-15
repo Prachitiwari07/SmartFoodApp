@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍏 Smart Food Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+
+  <style>
+    /* 🎨 Chart Styling */
+    .chart-container {
+      width: 250px; /* smaller chart */
+      height: 250px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    canvas {
+      width: 220px !important;
+      height: 220px !important;
+    }
+
+    .chart-title {
+      text-align: center;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body class="dashboard">
+
+  <header>
+    <h1>🍏 Smart Food Dashboard</h1>
+  </header>
+
+  <!-- 🥗 Add Food Section -->
+  <div class="section">
+    <h2>➕ Add Food Item</h2>
+    <form id="add-food-form" method="POST" action="/add_food">
+      <input type="text" name="name" id="food-name" placeholder="Enter food name" required>
+      <input type="date" name="expiry_date" id="expiry-date" required>
+      <button type="submit">Add</button>
+    </form>
+
+    <!-- 📸 Food Scanner -->
+    <div class="scanner">
+      <h3>📷 Scan Food QR / Barcode</h3>
+      <div id="reader" style="width: 260px; margin: auto;"></div>
+      <p id="scan-result" style="text-align:center; color:green; font-weight:bold;"></p>
+      <button id="start-scan">Start Scan</button>
+      <button id="stop-scan" style="display:none;">Stop Scan</button>
+    </div>
+  </div>
+
+  <!-- ✅ Fresh Foods -->
+  <div class="section fresh">
+    <h2>✅ Fresh Foods</h2>
+    <ul>
+      {% for f in fresh %}
+        <li>{{ f.name }} - {{ f.days_left }} days left</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- ⚠️ Expired Foods -->
+  <div class="section expired">
+    <h2>⚠️ Expired Foods</h2>
+    <ul>
+      {% for f in expired %}
+        <li>
+          {{ f.name }} (Expired)
+          <button class="suggest" onclick="getSuggestion('{{ f.name }}')">Get Suggestion</button>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- 💡 Suggestion Box -->
+  <div id="suggestion-box" class="section">
+    <h3>💡 Suggestions</h3>
+    <ul id="suggestion-list"></ul>
+  </div>
+
+  <!-- 📊 Food Expiry Chart -->
+  <div class="section chart-container">
+    <h3 class="chart-title">📊 Food Freshness Overview</h3>
+    <canvas id="foodChart"></canvas>
+  </div>
+
+  <footer>
+    <a href="/">← Back to Home</a>
+    <a href="/nutrition">🍎 Nutrition Info</a>
+  </footer>
+
+  <script>
+    // 🎥 QR/Barcode Scanner Logic
+    const startScanBtn = document.getElementById("start-scan");
+    const stopScanBtn = document.getElementById("stop-scan");
+    const scanResult = document.getElementById("scan-result");
+    let html5QrCode;
+
+    startScanBtn.addEventListener("click", () => {
+      html5QrCode = new Html5Qrcode("reader");
+      html5QrCode.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 180 },
+        (decodedText) => {
+          scanResult.textContent = "✅ Scanned: " + decodedText;
+          document.getElementById("food-name").value = decodedText;
+          html5QrCode.stop();
+          startScanBtn.style.display = "inline";
+          stopScanBtn.style.display = "none";
+        }
+      );
+      startScanBtn.style.display = "none";
+      stopScanBtn.style.display = "inline";
+    });
+
+    stopScanBtn.addEventListener("click", () => {
+      html5QrCode.stop();
+      startScanBtn.style.display = "inline";
+      stopScanBtn.style.display = "none";
+      scanResult.textContent = "";
+    });
+
+    // 📊 Compact Chart with balanced legend
+    const ctx = document.getElementById('foodChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Fresh Foods', 'Expired Foods'],
+        datasets: [{
+          data: [{{ fresh|length }}, {{ expired|length }}],
+          backgroundColor: ['#27ae60', '#e74c3c'],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        cutout: '70%',
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+              boxWidth: 15,
+              font: { size: 12 }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

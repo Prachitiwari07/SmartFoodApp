@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutrition Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body class="dashboard">
+
+  <header>
+    <h1>🥗 Daily Nutrition Tracker</h1>
+  </header>
+
+  <div class="section">
+    <h2>Enter Foods You Ate Today</h2>
+    <input type="text" id="foodInput" placeholder="e.g., Roti, Dal, Milk">
+    <button onclick="analyzeNutrition()">Analyze</button>
+  </div>
+
+  <div class="section" id="nutrition-result">
+    <h2>🍎 Nutrition Summary</h2>
+    <p id="nutrition-totals"></p>
+    <ul id="nutrition-advice"></ul>
+  </div>
+
+  <footer>
+    <a href="/dashboard">← Back to Dashboard</a>
+  </footer>
+
+</body>
+</html>

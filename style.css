@@ -1,0 +1,171 @@
+/* 🌿 General Styling */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f8fff5, #e9f7ef);
+  color: #333;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 🌟 Header */
+header {
+  background: #6ab04c;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 1.6rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* 🌈 Section */
+.section {
+  background: white;
+  margin: 25px auto;
+  padding: 20px;
+  width: 85%;
+  border-radius: 18px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+.section h2 {
+  color: #27ae60;
+  margin-bottom: 10px;
+}
+
+/* 💡 Input & Buttons */
+input, button {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin: 5px;
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: 2px solid #6ab04c;
+}
+
+button {
+  background: #27ae60;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: #219150;
+}
+
+/* ✅ Lists */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background: #f7fff9;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin: 6px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+li button.suggest {
+  background: #f39c12;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+li button.suggest:hover {
+  background: #e67e22;
+}
+
+/* 💡 Suggestion Box */
+#suggestion-box {
+  background: #fef9e7;
+  padding: 20px;
+  border-radius: 16px;
+  margin: 30px auto;
+  width: 85%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+#suggestion-list li {
+  background: #fff9db;
+}
+
+/* 🍽 Nutrition Page */
+#nutrition-result {
+  background: #e8f8f5;
+  padding: 20px;
+  border-radius: 16px;
+}
+
+/* 🦶 Footer */
+footer {
+  text-align: center;
+  margin-top: 30px;
+  padding: 20px;
+  background: #6ab04c;
+  color: white;
+  border-top: 3px solid #27ae60;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 8px;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* 🍎 Floating Food Animation */
+.floating {
+  position: absolute;
+  z-index: 0;
+  opacity: 0.8;
+  animation: float 6s ease-in-out infinite;
+}
+
+.floating img {
+  width: 70px;
+  height: auto;
+  opacity: 0.9;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Floating Image Positions */
+#apple { top: 100px; left: 40px; animation-delay: 0s; }
+#carrot { top: 250px; right: 80px; animation-delay: 2s; }
+#banana { bottom: 150px; left: 120px; animation-delay: 1s; }
+#leaf { bottom: 80px; right: 100px; animation-delay: 3s; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section {
+    width: 95%;
+  }
+  header {
+    font-size: 1.3rem;
+  }
+  button, input {
+    font-size: 0.9rem;
+  }
+}
+
